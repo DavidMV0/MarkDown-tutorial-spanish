@@ -1,0 +1,179 @@
+# Introducción a Markdown en R
+
+
+### Markdown es un lenguaje de marcado sencillo.
+(No es algo exclusivo de R)
+
+
+#### Su objetivo es simplificar la escritura de documentación al máximo.
+#### Un "parser", un traductor, se encarga de interpretar lo escrito y transformarlo en el documento definitivo. Permite generar documentos en múltiples formatos (PDF, HTML, WORD, etc.) con facilidad.
+#### Es equivalente a [LaTeX](https://www.fabriziomusacchio.com/blog/2021-08-18-Markdown_vs_LaTeX/) o editores [WYSIWYG](https://es.markdown.net.br/introduccion/).
+<!--
+Si queremos exportar a PDF necesitamos una herramienta de LaTeX. 
+La solución más simple es instalar la librerçia TinyTeX en R.
+Para ello es necesario que ejecutemos 2 líneas una sola vez:
+
+install.packages(“tinytex”)
+tinytex::install_tinytex()
+-->
+
+
+#### Rmarkdown te permite generar ficheros de Markdown (.md o .markdown) desde R. Esta librería hace sencillo integrar la notación simplificada de Markdown con los resultados e, incluso, tu código de R.
+
+
+En el menú "File >> New File" podemos seleccionar la opción R Markdown...
+![fig1](1-Opciones_New_File.png)
+
+Figura 1. Las opciones en New File
+
+
+Tras aclarar los detalles del fichero en un formulario, se generará un nuevo fichero con extensión .Rmd.
+![fig2](2-Menu_contextual_New_R_Markdown.png)
+
+Figura 2. Menú contextual al crear un nuevo R Markdown
+
+
+Y, si no están ya instaladas, RStudio solicitará instalar las librerías de las que depende Rmarkdown
+![fig3](3-Dependencias_R_Markdown.jpg)
+
+Figura 3. Las múltiples dependencias de R Markdown
+
+
+### Vamos con los ejemplos más básicos:
+
+
+## ENCABEZADOS
+
+# This is level 1 (article title)
+## This is level 2
+### This is level 3
+#### This is level 4
+##### This is level 5
+###### This is level 6
+####### (no existe el nivel 7)
+
+
+## TEXTOS SIMPLES
+En Markdown, un párrafo no requiere sintaxis especial.
+
+Para aplicar negrita al texto, se escribe entre dos asteriscos. Para aplicar cursiva al texto, se escribe entre un solo asterisco:
+
+   **This text is bold.**  
+   *This text is italic.*  
+   ***This text is both bold and italic.***  
+<u>Este es un texto subrayado.</u>  
+~~Y este es un texto tachado.~~  
+Este texto^"es un super índice"^</br>
+F~2~  
+F^2^  
+
+### Si queremos ignorar los caracteres de formato de Markdown, hay que poner \\ antes del carácter:
+
+\*Este texto no está en itálicas, sino que lo hemos puesto entre asteriscos.\*
+
+
+### Si queremos opciones más complejas, utilizamos directamente HTML:
+Quiero que este texto se vea 
+<b style = 'color : red;'>rojo</b>, 
+y que este se vea 
+<b style = 'color : yellow; font-size: 100px;'>
+amarillo y grande</b>.
+
+
+## LISTAS
+Para crear listas numeradas, empiece una línea con 1. or 1), pero no mezcle los formatos dentro de la misma lista. No es necesario especificar los números. El parser lo hará por tí.
+
+1. This is step 1.
+1. This is the next step.
+1. This is yet another step, the third.
+
+1) This is step 1.
+1) This is the next step.
+1) This is yet another step, the third.
+
+* This is step 1.
+* This is the next step.
+* This is yet another step, the third.
+
+1.  Primer elemento
+
+2.  Segundo elemento
+
+    1.  Primer sub elemento (incluye dos "tab")
+    2.  Segundo sub elemento (incluye dos "tab")
+
+3.  Tercer elemento
+
+    -   Otro sub elemento no ordenado (incluye dos "tab")
+    -   Otro sub elemento no ordenado (incluye dos "tab")
+
+
+## ANOTACIONES DIVERSAS
+
+```
+Podemos introducir una sección encajonada de esta manera.
+```
+
+Una cita sería:  
+
+>Esto podría ser una cita de Einstein, pero es mía.  
+>--  
+>Gorka Garay
+
+>Esta es una cita que  
+>ocupa varias líneas,  
+>para facilitar que se vea mejor.
+
+>Y esta es una cita con otros elementos indexados
+>
+>>Este es el primer elemento  
+>
+>>Y este es el segundo  
+
+
+Un link se puede construir así:
+
+Visita la siguiente web para saber más [Universitat de Valéncia](https://www.uv.es/vcoll/RMarkdown.html)
+https://www.uv.es/vcoll/RMarkdown.html
+
+## TABLAS
+
+| Campo 1 | Otro campo | Campo tercero |
+|--- |--- |--- |
+| row 1 | column 2 | column 3 |
+| row 2 | row 2 column 2 | row 2 column 3 |
+| a | b | c |
+| 1 | 25 | 4 |
+
+
+## OTRAS POSIBLES ACCIONES
+
+
+<CENTER>Por ejemplo, podemos centrar un texto.<CENTER>
+
+
+\newpage
+## CÓDIGO Y RESULTADOS
+
+Ya es hora de manejar código de R, ¿no?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=TRUE}
+library(help = "datasets")
+library(help = "eurostat")
+```
+
+
+
+```{r}
+mis_datos=mtcars
+summary(mis_datos)
+```
+```{r}
+library(summarytools)
+freq(mis_datos$hp, style = "rmarkdown", justify = "center", headings = FALSE,
+     report.nas = FALSE)
+```
